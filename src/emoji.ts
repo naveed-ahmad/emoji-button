@@ -1,5 +1,4 @@
 import { TinyEmitter as Emitter } from 'tiny-emitter';
-import twemoji from 'twemoji';
 
 import { EMOJI, HIDE_PREVIEW, SHOW_PREVIEW } from './events';
 import { smile } from './icons';
@@ -31,16 +30,14 @@ export class Emoji {
       content = this.lazy
         ? smile
         : `<img class="${CLASS_CUSTOM_EMOJI}" src="${this.emoji.emoji}">`;
-    } else if (this.options.style === 'twemoji') {
-      content = this.lazy
-        ? smile
-        : twemoji.parse(this.emoji.emoji, this.options.twemojiOptions);
     }
 
     this.emojiButton.innerHTML = content;
     this.emojiButton.tabIndex = -1;
 
     this.emojiButton.dataset.emoji = this.emoji.emoji;
+    this.emojiButton.dataset.short = this.emoji.short;
+
     if (this.emoji.custom) {
       this.emojiButton.dataset.custom = 'true';
     }
@@ -51,10 +48,6 @@ export class Emoji {
     this.emojiButton.addEventListener('click', () => this.onEmojiClick());
     this.emojiButton.addEventListener('mouseover', () => this.onEmojiHover());
     this.emojiButton.addEventListener('mouseout', () => this.onEmojiLeave());
-
-    if (this.options.style === 'twemoji' && this.lazy) {
-      this.emojiButton.style.opacity = '0.25';
-    }
 
     return this.emojiButton;
   }

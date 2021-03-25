@@ -26,6 +26,7 @@ import { load } from './recent';
 
 const categorySortOrder = [
   'recents',
+  'custom',
   'smileys',
   'people',
   'animals',
@@ -34,8 +35,7 @@ const categorySortOrder = [
   'travel',
   'objects',
   'symbols',
-  'flags',
-  'custom'
+  'flags'
 ];
 
 export class EmojiArea {
@@ -68,7 +68,7 @@ export class EmojiArea {
     }
 
     if (options.custom) {
-      this.categories = [...this.categories, 'custom'];
+      this.categories = ['custom', ...this.categories];
     }
 
     this.categories.sort(
@@ -102,6 +102,7 @@ export class EmojiArea {
 
     if (this.options.showCategoryButtons) {
       this.categoryButtons = new CategoryButtons(
+        this.categories,
         this.options,
         this.events,
         this.i18n

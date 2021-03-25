@@ -17,12 +17,7 @@ export class EmojiContainer {
     private options: EmojiButtonOptions,
     private lazy = true
   ) {
-    this.emojis = emojis.filter(
-      e =>
-        !(e as EmojiRecord).version ||
-        parseFloat((e as EmojiRecord).version as string) <=
-          parseFloat(options.emojiVersion as string)
-    );
+    this.emojis = emojis;
   }
 
   render(): HTMLElement {

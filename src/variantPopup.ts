@@ -70,7 +70,8 @@ export class VariantPopup {
           {
             name: this.emoji.name,
             emoji: variation,
-            key: this.emoji.name + index
+            key: this.emoji.name + index,
+            short: this.emoji.short
           },
           false,
           false,

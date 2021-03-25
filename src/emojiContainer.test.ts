@@ -5,8 +5,8 @@ import { EmojiContainer } from './emojiContainer';
 describe('EmojiContainer', () => {
   test('should render all the given emojis', () => {
     const emojis = [
-      { emoji: '⚡️', version: '12.1', name: 'zap', category: 0 },
-      { emoji: '👍', version: '12.1', name: 'thumbs up', category: 0 }
+      { emoji: '⚡️', name: 'zap', category: 0, short: 'zap' },
+      { emoji: '👍', name: 'thumbs up', category: 0, short: 'thumbs-up' }
     ];
 
     const events = new Emitter();

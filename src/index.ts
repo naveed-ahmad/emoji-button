@@ -3,7 +3,6 @@ import '../css/emoji-button.css';
 import createFocusTrap, { FocusTrap } from 'focus-trap';
 import { TinyEmitter as Emitter } from 'tiny-emitter';
 import { createPopper, Instance as Popper, Placement } from '@popperjs/core';
-import twemoji from 'twemoji';
 
 import emojiData from './data/emoji';
 
@@ -17,7 +16,7 @@ import {
 import { lazyLoadEmoji } from './lazyLoad';
 import { EmojiPreview } from './preview';
 import { Search } from './search';
-import { createElement, empty, buildEmojiCategoryData } from './util';
+import {createElement, empty, buildEmojiCategoryData, buildEmojiData, buildCustomEmojiData} from './util';
 import { VariantPopup } from './variantPopup';
 
 import { i18n } from './i18n';
@@ -44,8 +43,6 @@ import { EmojiArea } from './emojiArea';
 
 const MOBILE_BREAKPOINT = 450;
 
-const STYLE_TWEMOJI = 'twemoji';
-
 const DEFAULT_OPTIONS: EmojiButtonOptions = {
   position: 'auto',
   autoHide: true,
@@ -58,7 +55,6 @@ const DEFAULT_OPTIONS: EmojiButtonOptions = {
   showCategoryButtons: true,
   recentsCount: 50,
   emojiData,
-  emojiVersion: '12.1',
   theme: 'light',
   categories: [
     'smileys',
@@ -72,10 +68,6 @@ const DEFAULT_OPTIONS: EmojiButtonOptions = {
     'flags'
   ],
   style: 'native',
-  twemojiOptions: {
-    ext: '.svg',
-    folder: 'svg'
-  },
   emojisPerRow: 8,
   rows: 6,
   emojiSize: '1.8em',
@@ -131,6 +123,10 @@ export class EmojiButton {
     this.emojiCategories = buildEmojiCategoryData(
       this.options.emojiData || emojiData
     );
+
+    if(this.options.custom){
+      this.options.custom = buildCustomEmojiData(this.options.custom, this.options.cdnBase)
+    }
 
     this.buildPicker();
   }
@@ -240,8 +236,6 @@ export class EmojiButton {
       let eventData: EmojiSelection;
       if (emoji.custom) {
         eventData = this.emitCustomEmoji(emoji);
-      } else if (this.options.style === STYLE_TWEMOJI) {
-        eventData = await this.emitTwemoji(emoji);
       } else {
         eventData = this.emitNativeEmoji(emoji);
       }
@@ -258,10 +252,11 @@ export class EmojiButton {
    * Emits a native emoji record.
    * @param emoji The selected emoji
    */
-  private emitNativeEmoji(emoji: EmojiRecord): EmojiSelection {
+  private emitNativeEmoji(emoji: EmojiRecord): { emoji: string; name: string; short: string } {
     return {
       emoji: emoji.emoji,
-      name: emoji.name
+      name: emoji.name,
+      short: emoji.short
     };
   }
 
@@ -269,34 +264,13 @@ export class EmojiButton {
    * Emits a custom emoji record.
    * @param emoji The selected emoji
    */
-  private emitCustomEmoji(emoji: EmojiRecord): EmojiSelection {
+  private emitCustomEmoji(emoji: EmojiRecord): { custom: boolean; name: string; short: string; url: string } {
     return {
       url: emoji.emoji,
       name: emoji.name,
+      short: emoji.short,
       custom: true
     };
-  }
-
-  /**
-   * Emits a Twemoji emoji record.
-   * @param emoji The selected emoji
-   */
-  private emitTwemoji(emoji: EmojiRecord): Promise<EmojiSelection> {
-    return new Promise(resolve => {
-      twemoji.parse(emoji.emoji, {
-        ...this.options.twemojiOptions,
-        callback: (icon, { base, size, ext }: any) => {
-          const imageUrl = `${base}${size}/${icon}${ext}`;
-          resolve({
-            url: imageUrl,
-            emoji: emoji.emoji,
-            name: emoji.name
-          });
-
-          return imageUrl;
-        }
-      });
-    });
   }
 
   /**
@@ -482,9 +456,7 @@ export class EmojiButton {
    * @return true if the emoji should be lazily loaded, false if not.
    */
   private shouldLazyLoad(element: HTMLElement): boolean {
-    return (
-      this.options.style === STYLE_TWEMOJI || element.dataset.custom === 'true'
-    );
+    return element.dataset.custom === 'true';
   }
 
   /**

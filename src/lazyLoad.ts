@@ -1,5 +1,3 @@
-import twemoji from 'twemoji';
-
 import { CLASS_CUSTOM_EMOJI } from './classes';
 import { EmojiButtonOptions } from './types';
 
@@ -12,8 +10,6 @@ export function lazyLoadEmoji(
   if (!element.dataset.loaded) {
     if (element.dataset.custom) {
       lazyLoadCustomEmoji(element);
-    } else if (options.style === 'twemoji') {
-      lazyLoadTwemoji(element, options);
     }
 
     element.dataset.loaded = 'true';
@@ -28,17 +24,5 @@ function lazyLoadCustomEmoji(element: HTMLElement): void {
     img.src = element.dataset.emoji;
     element.innerText = '';
     element.appendChild(img);
-  }
-}
-
-function lazyLoadTwemoji(
-  element: HTMLElement,
-  options: EmojiButtonOptions
-): void {
-  if (element.dataset.emoji) {
-    element.innerHTML = twemoji.parse(
-      element.dataset.emoji,
-      options.twemojiOptions
-    );
   }
 }

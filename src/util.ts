@@ -1,4 +1,5 @@
 import { EmojiData, EmojiRecord } from './types';
+import {Emoji} from "./emoji";
 
 export function createElement(
   tagName: string,
@@ -44,4 +45,32 @@ export function buildEmojiCategoryData(
   });
 
   return emojiCategories;
+}
+
+export function buildEmojiData(
+  emojiData: EmojiData
+): EmojiData {
+  emojiData.emoji.forEach(emoji => {
+    emoji.emoji = emoji['e']
+    emoji.name = emoji['n']
+    emoji.category = emoji['c']
+    emoji.variations = emoji['v']
+    emoji.short = emoji['s']
+  });
+
+  return emojiData;
+}
+
+
+export function buildCustomEmojiData(
+    emojiData: EmojiRecord[],
+    cdnBase: string | undefined
+): EmojiRecord[] {
+  emojiData.forEach(emoji => {
+    emoji.emoji = `${cdnBase}/${emoji['e']}`
+    emoji.name = emoji['n']
+    emoji.short = emoji['s']
+  });
+
+  return emojiData;
 }

@@ -8,8 +8,8 @@ import { EmojiButtonOptions, EmojiRecord } from './types';
 
 describe('Search', () => {
   const emojis: EmojiRecord[] = [
-    { category: 0, emoji: '⚡️', name: 'zap', version: '12.1' },
-    { category: 1, emoji: '😀', name: 'grinning', version: '12.1' }
+    { category: 0, emoji: '⚡️', name: 'zap', short: 'zap' },
+    { category: 1, emoji: '😀', name: 'grinning', short: 'grinning' }
   ];
 
   const options: EmojiButtonOptions = { emojiVersion: '12.1', style: 'native' };

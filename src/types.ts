@@ -1,13 +1,12 @@
 import { Placement } from '@popperjs/core';
-import { ParseObject } from 'twemoji';
 import { EmojiButton } from './index';
 
 export interface EmojiRecord {
   name: string;
+  short: string;
   emoji: string;
   custom?: boolean;
   category?: number;
-  version?: string;
   variations?: string[];
   key?: string;
 }
@@ -27,6 +26,7 @@ export interface EmojiSelection {
 export interface RecentEmoji {
   key: string;
   name: string;
+  short: string;
   emoji: string;
   custom?: boolean;
 }
@@ -55,18 +55,17 @@ export interface EmojiButtonOptions {
   recentsCount?: number;
   rootElement?: HTMLElement;
   emojiData?: EmojiData;
-  emojiVersion?: EmojiVersion;
   i18n?: I18NStrings;
   zIndex?: number;
   theme?: EmojiTheme;
   categories?: Category[];
   style?: EmojiStyle;
-  twemojiOptions?: Partial<ParseObject>;
   emojisPerRow?: number;
   rows?: number;
   emojiSize?: string;
   initialCategory?: Category | 'recents';
   custom?: EmojiRecord[];
+  cdnBase?: string,
   plugins?: Plugin[];
   icons?: Icons;
   styleProperties?: {
@@ -81,19 +80,9 @@ export interface FixedPosition {
   right?: string;
 }
 
-export type EmojiStyle = 'native' | 'twemoji';
+export type EmojiStyle = 'native';
 
 export type EmojiTheme = 'dark' | 'light' | 'auto';
-
-export type EmojiVersion =
-  | '1.0'
-  | '2.0'
-  | '3.0'
-  | '4.0'
-  | '5.0'
-  | '11.0'
-  | '12.0'
-  | '12.1';
 
 export type Category =
   | 'smileys'

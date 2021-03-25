@@ -66,11 +66,7 @@ export class Search {
   ) {
     this.emojisPerRow = this.options.emojisPerRow || 8;
     this.emojiData = emojiData.filter(
-      e =>
-        e.version &&
-        parseFloat(e.version) <= parseFloat(options.emojiVersion as string) &&
-        e.category !== undefined &&
-        categories.indexOf(e.category) >= 0
+      e => e.category !== undefined && categories.indexOf(e.category) >= 0
     );
 
     if (this.options.custom) {

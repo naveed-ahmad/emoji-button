@@ -11,7 +11,7 @@ describe('Emoji', () => {
     emoji: '😄',
     name: 'smile',
     category: 0,
-    version: '11.0'
+    short: 'smile'
   };
   const options: EmojiButtonOptions = { showRecents: true, style: 'native' };
 
