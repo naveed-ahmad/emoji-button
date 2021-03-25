@@ -1,3 +1,14 @@
+### READ THIS BEFORE USING THIS FORKED VERSION OF emoji-button
+
+This is very modified fork of [emoji-button](https://emoji-button.js.org). Stuff we've changed:
+- Added the short name of each emoji
+- Instead of unicode emoji, picker will paste short name of emoji when user select an emoji
+- Removed twemoji
+- Added CDN support for custom emojies 
+- Renamed the keys in data file to reduce the package size( We're at ~ 170kb, down from 270kb) BIG WIN!! 
+
+Thank you [@joeattardi](https://github.com/joeattardi) for creating this amazing emoji picker.
+
 ![Emoji Button](https://user-images.githubusercontent.com/219285/88242435-2864b400-cc5b-11ea-9b77-b4574ad45f4c.png)
 
 
